@@ -2,12 +2,9 @@ import { Request } from 'express';
 import { Controller } from '../core/controller';
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { Image } from '../models/image';
 import { secure } from '../core/security';
 import { AppError } from '../core/error.exception';
 import { RepositoryObserver, ObserverEventType } from '../core/repository/repository.observer';
-import { PortfolioContent } from '../models/portfolio.content';
-import { PortfolioItem } from '../models/portfolio.item';
 import { ImageProcess } from '../helpers/image.process';
 
 @injectable()
@@ -59,22 +56,5 @@ export class ImageController implements Controller, RepositoryObserver {
     }
 
     onDataChanged(entity_type: any, entity: any, event: ObserverEventType) {
-        if(entity_type == PortfolioContent && event == ObserverEventType.Removed) {
-            const content:PortfolioContent = entity;
-
-            if(content.type == 'image') {
-                this.extImage.delete(content.data.imageId);
-            } else if(content.type == 'object3d') {
-                const images:Image[] = content.data;
-                images.forEach(elem=>{
-                    this.extImage.delete(elem.imageId);
-                });
-            }
-        } else if(entity_type == PortfolioItem && event == ObserverEventType.Removed) {
-            const item:PortfolioItem = entity;
-            if(item.thumbnail) {
-                this.extImage.delete(item.thumbnail.imageId);
-            }
-        }
     }
 }
