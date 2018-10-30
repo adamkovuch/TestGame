@@ -1,0 +1,10 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+      "outDir": "../game-dist",
+      "types": []
+    },
+    "exclude": [
+      "../server"
+    ]
+  }

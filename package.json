@@ -1,0 +1,58 @@
+{
+  "name": "TestGame",
+  "version": "2.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --p ./game/tsconfig.json && tsc --p ./server/tsconfig.json",
+    "postinstall": "npm run build",
+    "dev": "ts-node server.ts",
+    "start": "node ./server-dist/server.js"
+  },
+  "engines": {
+    "node": "11.0.0",
+    "npm": "6.4.1"
+  },
+  "private": true,
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cloudinary": "^1.11.0",
+    "cluster": "^0.7.7",
+    "compression": "^1.7.3",
+    "core-js": "^2.5.7",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "express-fileupload": "^0.4.0",
+    "got": "^9.2.2",
+    "inversify": "^4.13.0",
+    "jimp": "^0.5.3",
+    "jsonwebtoken": "^8.3.0",
+    "mailgun-js": "^0.21.0",
+    "mongodb": "^3.1.6",
+    "mongoose": "^5.3.1",
+    "nodemailer": "^4.6.8",
+    "nodemon": "^1.18.4",
+    "popper.js": "^1.14.4",
+    "prod": "^1.0.1",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.3.3",
+    "rxjs-compat": "^6.3.3",
+    "tilt.js": "^1.2.1",
+    "typegoose": "^5.4.1",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.0",
+    "@types/got": "^8.3.4",
+    "@types/mongodb": "^3.1.10",
+    "@types/mongoose": "^5.2.18",
+    "@types/node": "^10.11.4",
+    "@types/phantom": "^3.2.5",
+    "rxjs-tslint": "^0.1.5",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.20.2"
+  }
+}
