@@ -4,7 +4,6 @@ import { Router } from './core/router';
 import * as appRoot from 'app-root-path';
 import * as path from 'path';
 import * as fileUpload from 'express-fileupload';
-import { RenderCache } from './core/rendercache';
 import { getLogger, Logger } from './core/logger';
 import * as cors from 'cors';
 import * as compression from 'compression';
@@ -12,7 +11,8 @@ import * as compression from 'compression';
 class App {
     public app: express.Application;
     public router: Router;
-    public cache: RenderCache;
+
+    public dist_folder = "game-dist/game";
 
     private log = getLogger(App);
 
@@ -21,7 +21,6 @@ class App {
 
         this.app = express();
         this.router = new Router();
-        this.cache = new RenderCache();
         process.on('exit', this.cleanup);
     }
 
@@ -67,19 +66,11 @@ class App {
             }
         });
 
-        this.app.get('*/index.html', (req, res) => {
-            res.sendFile(path.join(appRoot.path, 'dist/index.html'));
-        });
-
-        this.app.use(express.static(path.join(appRoot.path, 'dist'), { index: false }));
+        this.app.use(express.static(path.join(appRoot.path, this.dist_folder), { index: false }));
         this.app.use('/upload', express.static(path.join(appRoot.path, 'upload')));
 
         this.app.use('/api', await this.router.route());
 
-        this.app.get('/clearcache', (req, res) => {
-            const count = this.cache.clearCache();
-            res.json({status: "OK", count});
-        });
         this.app.get('/logs', (req, res) => {
             try {
                 const logger = new Logger(App);
@@ -93,8 +84,7 @@ class App {
             }
         });
 
-        this.app.get('/', (req, res)=>this.cache.render(req, res));
-        this.app.get('*', (req, res)=>this.cache.render(req, res));
+        this.app.get('*', (req, res)=>res.sendFile(path.join(appRoot.path, this.dist_folder, 'index.html')));
     }
 
     private cleanup() {

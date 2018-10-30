@@ -3,10 +3,13 @@
   "version": "2.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --p ./game/tsconfig.json && tsc --p ./server/tsconfig.json",
+    "build-client": "echo Building client... && tsc --p ./game/tsconfig.json",
+    "build-server": "echo Building server... && tsc --p ./server/tsconfig.json",
+    "build": "echo Build starting... && npm run build-server && npm run build-client && npm run assets && echo Build succeeded",
     "postinstall": "npm run build",
     "dev": "ts-node server.ts",
-    "start": "node ./server-dist/server.js"
+    "start": "node ./server-dist/server.js",
+    "assets": "echo Copying assets... && copyfiles -e ./game/**/*.ts -e ./game/tsconfig.json ./game/**/*.* ./game-dist"
   },
   "engines": {
     "node": "11.0.0",
@@ -49,6 +52,7 @@
     "@types/mongoose": "^5.2.18",
     "@types/node": "^10.11.4",
     "@types/phantom": "^3.2.5",
+    "copyfiles": "^2.1.0",
     "rxjs-tslint": "^0.1.5",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
