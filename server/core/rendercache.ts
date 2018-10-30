@@ -12,14 +12,16 @@ export class RenderCache {
     private log = getLogger(RenderCache);
     private root_dir = appRoot.path;
     private dir_name = "render_cache";
+    
+    dist_folder = "game-dist";
 
-    public prerender_enable = true;
+    public prerender_enable = false;
 
     private readonly loadPromises: Promise<void>[] = [];
 
     constructor() {
         if (process.env.PRERENDER) {
-            this.prerender_enable = process.env.PRERENDER === 'false' ? false : true;
+            this.prerender_enable = process.env.PRERENDER === 'true' ? true : false;
         } else {
             this.log.info(`Server started in SSR mode`);
         }
@@ -48,7 +50,7 @@ export class RenderCache {
             await this.prerender(req);
             res.sendFile(ph);
         } else {
-            res.sendFile(path.join(appRoot.path, 'dist/index.html'));
+            res.sendFile(path.join(appRoot.path, this.dist_folder, 'index.html'));
         }
     }
 
